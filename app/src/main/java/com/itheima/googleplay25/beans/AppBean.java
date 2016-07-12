@@ -6,8 +6,10 @@ package com.itheima.googleplay25.beans;
  *  @文件名:   AppBean
  *  @创建者:   Administrator
  *  @创建时间:  2016/7/12 21:49
- *  @描述：    TODO
+ *  @描述：    App数据的Bean类
  */
 public class AppBean {
     private static final String TAG = "AppBean";
+
+
 }

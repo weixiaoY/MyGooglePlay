@@ -29,6 +29,7 @@ public class HomeBean {
     public List<ListBean> list;
 
     public static class ListBean {
+
         public int    id;
         public String name;
         public String packageName;
