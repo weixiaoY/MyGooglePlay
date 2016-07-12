@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_centerInParent="true"
+        android:id="@+id/iv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_error_page"/>
+
+    <Button
+        android:background="@drawable/btn_bg"
+        android:textColor="#ff717171"
+        android:textSize="12sp"
+        android:id="@+id/bt_error_retry"
+        android:text="加载失败,点击重试"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_error"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

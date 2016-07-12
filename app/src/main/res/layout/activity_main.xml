@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/main_draw"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:itheima="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.MainActivity">
+
+    <!--抽屉-->
+    <FrameLayout
+        android:background="#0000ff"
+        android:id="@+id/main_draw_left"
+        android:layout_gravity="left"
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
+        ></FrameLayout>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:id="@+id/main_draw_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+       <org.itheima.tabindicator.library.TabIndicator
+            android:id="@+id/indicator"
+            itheima:tiRectColor="#33ff0000"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            itheima:tiTabMode="rect"
+            itheima:tiRectRadius="25dp"
+            itheima:tiRectStyle="fill"
+            itheima:tiTabTextColor="@android:color/black"
+            />
+
+        <!--<org.itheima.tabindicator.library.TabIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            itheima:tiTabMode="line"
+            itheima:tiLineColor="#0000ff"
+            itheima:tiLineStyle="match"
+            itheima:tiLineHeight="4dp"
+            />-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
