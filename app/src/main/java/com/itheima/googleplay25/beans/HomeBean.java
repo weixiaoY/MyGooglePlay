@@ -33,7 +33,7 @@ public class HomeBean {
         public String name;
         public String packageName;
         public String iconUrl;
-        public int    stars;
+        public float    stars;
         public int    size;
         public String downloadUrl;
         public String des;

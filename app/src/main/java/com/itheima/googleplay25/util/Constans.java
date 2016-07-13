@@ -12,4 +12,7 @@ public class Constans {
     private static final String TAG = "Constans";
 
     public static final  String URL = "http://188.188.3.52:8080/GooglePlayServer/";
+
+    public static final  String IMAGE_SERVER = URL + "image?name=";
+
 }

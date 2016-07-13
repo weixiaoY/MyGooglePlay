@@ -3,11 +3,12 @@ package com.itheima.googleplay25.fragment;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.itheima.googleplay25.base.BaseHolder;
 import com.itheima.googleplay25.base.LoadDataFragment;
 import com.itheima.googleplay25.base.SuperBaseAdapter;
+import com.itheima.googleplay25.beans.HomeBean;
 import com.itheima.googleplay25.holder.HomeHolder;
 import com.itheima.googleplay25.util.Constans;
 import com.itheima.googleplay25.util.UiUtil;
@@ -16,7 +17,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import java.io.IOException;
 import java.util.List;
 
 /*
@@ -30,7 +30,8 @@ import java.util.List;
 public class HomeFragment extends LoadDataFragment {
     private static final String TAG = "HomeFragment";
 
-    private List<String> mData;
+    private List<HomeBean.ListBean> mData;
+    private List<String> mPicture;
 
 
     @Override
@@ -82,19 +83,29 @@ public class HomeFragment extends LoadDataFragment {
             Response response = client.newCall(request)
                                      .execute();//直接执行同步执行
             if (response.isSuccessful()){       //这个方法是返回值200-300就是成功
-                final String body = response.body()
+                final String json = response.body()
                                             .string();
+                Gson gson = new Gson();
+                HomeBean homeBean = gson.fromJson(json, HomeBean.class);
+                if (homeBean != null){          //如果有数据就添加到集合
+                     mData = homeBean.list;
+                    mPicture = homeBean.picture;
+                }else{                          //如果没有就返回empty
+                    return LoadDataView.Result.EMPTY;
+                }
                 //System.out.println(">>>>>>" + body);
-                UiUtil.post(new Runnable() {    //这里是直接调用了handler的post方法来在界面显示.
+                /*UiUtil.post(new Runnable() {    //这里是直接调用了handler的post方法来在界面显示.
                                                 //如果直接打log可能会取不到数据,这点没有eclipse好用
+
                     @Override
                     public void run() {
                         Toast.makeText(UiUtil.getContext(), body, Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return LoadDataView.Result.ERROR;   //返回错误
         }
 
         /*//异步执行
