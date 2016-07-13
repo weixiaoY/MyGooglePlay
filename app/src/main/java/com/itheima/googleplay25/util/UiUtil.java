@@ -42,4 +42,8 @@ public class UiUtil {
     public static void post(Runnable runnable){
         handler.post(runnable);
     }
+
+    public static void postDelayed(Runnable runnable,long delayed){
+        handler.postDelayed(runnable,delayed);
+    }
 }

@@ -52,9 +52,13 @@ public abstract class LoadDataView
         addView(mEmptyView);
 
         mErrorView = View.inflate(UiUtil.getContext(), R.layout.pager_error, null);
+        mErrorView.findViewById(R.id.bt_error_retry).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData();         //重新加载数据
+            }
+        });
         addView(mErrorView);
-
-
         //添加哪个的到fragment的方法
         updateUI();
     }
@@ -120,9 +124,7 @@ public abstract class LoadDataView
         }
 
         int state;
-
         public int getState() {
-
             return state;
         }
     }

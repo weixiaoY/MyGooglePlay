@@ -11,8 +11,8 @@ package com.itheima.googleplay25.util;
 public class Constans {
     private static final String TAG = "Constans";
 
-    public static final  String URL = "http://188.188.3.52:8080/GooglePlayServer/";
+    public static final  String URL = "http://127.0.0.1:8090/";
 
     public static final  String IMAGE_SERVER = URL + "image?name=";
-
+    public static final int PAGE_SIZE        = 20;
 }

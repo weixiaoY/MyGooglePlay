@@ -4,18 +4,14 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.ListView;
 
-import com.google.gson.Gson;
 import com.itheima.googleplay25.base.BaseHolder;
 import com.itheima.googleplay25.base.LoadDataFragment;
 import com.itheima.googleplay25.base.SuperBaseAdapter;
 import com.itheima.googleplay25.beans.HomeBean;
 import com.itheima.googleplay25.holder.HomeHolder;
-import com.itheima.googleplay25.util.Constans;
+import com.itheima.googleplay25.protocol.HomeProtocol;
 import com.itheima.googleplay25.util.UiUtil;
 import com.itheima.googleplay25.view.LoadDataView;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.util.List;
 
@@ -27,12 +23,14 @@ import java.util.List;
  *  @创建时间:  2016/7/8 20:08
  *  @描述：    HomeFragment
  */
-public class HomeFragment extends LoadDataFragment {
+public class HomeFragment
+        extends LoadDataFragment
+{
     private static final String TAG = "HomeFragment";
 
     private List<HomeBean.ListBean> mData;
-    private List<String> mPicture;
-
+    private List<String>            mPicture;
+    private HomeProtocol            mProtocol;
 
     @Override
     protected View onInitSuccessView() {
@@ -51,11 +49,40 @@ public class HomeFragment extends LoadDataFragment {
         return lv;
     }
 
-    private class HomeAdaper extends SuperBaseAdapter {
+    private class HomeAdaper
+            extends SuperBaseAdapter
+    {
+
+
+        @Override
+        public boolean isSupportLoadMore() {
+            return true;
+        }
+
         //通过构造方法传递参数到SuperBaseAdapter;
         public HomeAdaper(List data) {
             super(data);
         }
+
+        @Override
+        protected List getMoreData()
+                throws Exception
+        {
+            //3,真实服务器数据
+            // 使用okHttp组件
+            // 1,传输效率高使用GZIP,
+            // 支持新的IPv6,
+            // 支持spdy服务器缓存技术
+
+            //4个版本.使用首页协议
+            mProtocol = new HomeProtocol();
+            HomeBean homeBean = mProtocol.loadData(mData.size() + "");
+            if (homeBean != null) {
+                return homeBean.list;
+            }
+            return null;
+        }
+
 
         //通过继承返回BaseHolder
         @Override
@@ -71,42 +98,26 @@ public class HomeFragment extends LoadDataFragment {
         //3,真实服务器数据
 
         // 使用okHttp组件
-            // 1,传输效率高使用GZIP,
-            // 支持新的IPv6,
-            // 支持spdy服务器缓存技术
-        OkHttpClient client = new OkHttpClient();       //创建okHttp类
-        String url = Constans.URL + "home?index=0";
-        //请求数据                get方法,url地址 ,建立连接
-        Request request = new Request.Builder().get().url(url).build();
-
+        // 1,传输效率高使用GZIP,
+        // 支持新的IPv6,
+        // 支持spdy服务器缓存技术
+        //4,第4个版本使用首页协议
+        //4个版本.使用首页协议
+        mProtocol = new HomeProtocol();
         try {
-            Response response = client.newCall(request)
-                                     .execute();//直接执行同步执行
-            if (response.isSuccessful()){       //这个方法是返回值200-300就是成功
-                final String json = response.body()
-                                            .string();
-                Gson gson = new Gson();
-                HomeBean homeBean = gson.fromJson(json, HomeBean.class);
-                if (homeBean != null){          //如果有数据就添加到集合
-                     mData = homeBean.list;
-                    mPicture = homeBean.picture;
-                }else{                          //如果没有就返回empty
-                    return LoadDataView.Result.EMPTY;
-                }
-                //System.out.println(">>>>>>" + body);
-                /*UiUtil.post(new Runnable() {    //这里是直接调用了handler的post方法来在界面显示.
-                                                //如果直接打log可能会取不到数据,这点没有eclipse好用
-
-                    @Override
-                    public void run() {
-                        Toast.makeText(UiUtil.getContext(), body, Toast.LENGTH_SHORT).show();
-                    }
-                });*/
+            HomeBean homeBean = mProtocol.loadData("0");
+            if (homeBean != null) {
+                mData = homeBean.list;
+                mPicture = homeBean.picture;
+            } else {
+                return LoadDataView.Result.EMPTY;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return LoadDataView.Result.ERROR;   //返回错误
+            return LoadDataView.Result.ERROR;
         }
+
+
 
         /*//异步执行
         client.newCall(request).enqueue(new Callback() {
@@ -123,10 +134,6 @@ public class HomeFragment extends LoadDataFragment {
             }
         });*/
 
-
-
-
-
         //使用模拟数据
       /*  mData = new ArrayList<String>();
         for (int i = 0; i < 50; i++) {
@@ -142,9 +149,6 @@ public class HomeFragment extends LoadDataFragment {
             e.printStackTrace();
         }*/
         return LoadDataView.Result.SUCCESS;
-    }
-
-
    /* @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
@@ -157,4 +161,6 @@ public class HomeFragment extends LoadDataFragment {
         tv.setText("首页");
         return ;
     }*/
+
+    }
 }

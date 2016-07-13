@@ -50,6 +50,14 @@ public class AppFragment extends LoadDataFragment {
         }
 
         @Override
+        protected List getMoreData()
+                throws Exception
+        {
+            return null;
+        }
+
+
+        @Override
         protected BaseHolder getBaseHolder() {
             return new AppHolder();
         }
