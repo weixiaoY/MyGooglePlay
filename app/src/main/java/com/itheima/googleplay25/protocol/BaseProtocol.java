@@ -1,12 +1,15 @@
 package com.itheima.googleplay25.protocol;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
-import com.itheima.googleplay25.beans.HomeBean;
 import com.itheima.googleplay25.util.Constans;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /*
@@ -17,19 +20,20 @@ import java.util.Map;
  *  @创建时间:  2016/7/13 23:51
  *  @描述：    通用协议
  */
-public abstract class BaseProtocol {
+public abstract class BaseProtocol<T> {
     private static final String TAG = "BaseProtocol";
 
     Map<String ,String> map ;
 
-    public BaseProtocol(Map<String, String> map) {
+    public void setMap(Map<String ,String> map){
         this.map = map;
     }
 
 
-    public HomeBean loadData(String index) throws Exception{
+    public T loadData() throws Exception{
         OkHttpClient client = new OkHttpClient();       //创建okHttp类
         String       url = getUrl();
+        Log.e(TAG, url);
         //Log.e("HomeAdaper", url);
         //请求数据   get方法,url地址 ,建立连接
         Request request = new Request.Builder().get().url(url).build();
@@ -38,10 +42,17 @@ public abstract class BaseProtocol {
         if (response.isSuccessful()){       //这个方法是返回值200-300就是成功
             final String json = response.body()
                                         .string();
+            Log.e(TAG, json);
             Gson     gson     = new Gson();
-            HomeBean homeBean = gson.fromJson(json, HomeBean.class);
-            if (homeBean != null){          //如果有数据就添加到集合
-                return homeBean;
+
+            //泛型解析,支持多个页面
+            //1.拿到具体实现类的class
+           ParameterizedType parameterizedType = (ParameterizedType) getClass().getGenericSuperclass();
+            Type[]  types = parameterizedType.getActualTypeArguments();//拿到具体实现类的type
+            T t = gson.fromJson(json, types[0]);      //fromJson 方法可以传两种类型,源码
+
+            if (t != null){          //如果有数据就添加到集合
+                return t;
             }
         }
         return null;
@@ -57,6 +68,8 @@ public abstract class BaseProtocol {
                 String key = entry.getKey();
                 url += key;
                 url += "=";
+                String value = entry.getValue();
+                url += value;
                 url += "&";
             }
             //去掉最后一个&

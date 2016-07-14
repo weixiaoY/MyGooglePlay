@@ -7,12 +7,15 @@ import android.widget.ListView;
 import com.itheima.googleplay25.base.BaseHolder;
 import com.itheima.googleplay25.base.LoadDataFragment;
 import com.itheima.googleplay25.base.SuperBaseAdapter;
-import com.itheima.googleplay25.holder.AppHolder;
+import com.itheima.googleplay25.beans.HomeBean;
+import com.itheima.googleplay25.holder.HomeHolder;
+import com.itheima.googleplay25.protocol.AppProtocol;
 import com.itheima.googleplay25.util.UiUtil;
 import com.itheima.googleplay25.view.LoadDataView;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  *  @项目名：  MyGoolePlay 
@@ -22,9 +25,11 @@ import java.util.List;
  *  @创建时间:  2016/7/8 20:10
  *  @描述：    AppFragment Fragment的显示类
  */
-public class AppFragment extends LoadDataFragment {
+public class AppFragment
+        extends LoadDataFragment
+{
     private static final String TAG = "AppFragment";
-    private List<String> mData;
+    private List<HomeBean.ListBean> mData;
 
 
     @Override
@@ -43,33 +48,52 @@ public class AppFragment extends LoadDataFragment {
         return lv;
     }
 
-    private class AppAdapter extends SuperBaseAdapter{
+    private class AppAdapter
+            extends SuperBaseAdapter
+    {
 
         public AppAdapter(List data) {
             super(data);
         }
 
         @Override
+        public boolean isSupportLoadMore() {    ///允许上来加载更多
+            return true;
+        }
+
+        @Override
         protected List getMoreData()
-                throws Exception
-        {
-            return null;
+                throws Exception {
+            AppProtocol         protocol = new AppProtocol();
+            Map<String, String> map      = new HashMap<>();
+            map.put("index", String.valueOf(mData.size()));
+            protocol.setMap(map);
+            return protocol.loadData();
         }
 
 
         @Override
         protected BaseHolder getBaseHolder() {
-            return new AppHolder();
+            return new HomeHolder();
         }
     }
 
     @Override
     protected LoadDataView.Result doInBackground()
     {
-        mData = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            mData.add("抽取后的App数据<<<<" + i);
-           // System.out.println(">>>>>>>>>>" + mData);
+        //使用通用协议
+        AppProtocol         protocol = new AppProtocol();
+        Map<String, String> map      = new HashMap<>();
+        map.put("index", "0");
+        protocol.setMap(map);
+        try {
+            mData = protocol.loadData();
+            if (mData == null || mData.size() == 0) {
+                return LoadDataView.Result.EMPTY;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return LoadDataView.Result.ERROR;
         }
         /*try {
             Log.d(TAG, "耗时操作");
