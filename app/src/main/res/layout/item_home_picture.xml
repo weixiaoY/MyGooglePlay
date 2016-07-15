@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!-- 轮播图 -->
+
+    <com.itheima.googleplay25.view.LoopViewPager
+        android:id="@+id/item_home_picture_pager"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"/>
+
+    <!-- 指针容器 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#30000000">
+
+        <!-- 标题 -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="标题"/>
+
+        <LinearLayout
+            android:id="@+id/dot_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <!--             <View
+                            android:layout_width="5dp"
+                            android:layout_height="5dp"
+                            android:background="@drawable/dot_selected"/> -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="180dp"
+    tools:context=".MainActivity" >
+
+    <com.example.smartbj25.widget.LoopViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="#30000000">
+        
+        <!-- 标题 -->
+        <TextView 
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="标题"/>
+        
+        <LinearLayout
+            android:id="@+id/dot_container" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            
+<!--             <View 
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:background="@drawable/dot_selected"/> -->
+            
+        </LinearLayout>
+        
+    </LinearLayout>
+
+</RelativeLayout>

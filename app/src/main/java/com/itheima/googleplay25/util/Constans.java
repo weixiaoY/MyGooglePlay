@@ -15,4 +15,5 @@ public class Constans {
 
     public static final  String IMAGE_SERVER = URL + "image?name=";
     public static final int PAGE_SIZE        = 20;
+    public static final long CACHE_OUT_TIME   = 20 *1000;
 }

@@ -46,4 +46,13 @@ public class UiUtil {
     public static void postDelayed(Runnable runnable,long delayed){
         handler.postDelayed(runnable,delayed);
     }
+
+    // 移除一个任务
+    public static void removeCallbacks(Runnable tast){
+        handler.removeCallbacks(tast);
+    }
+
+    public static String getPackName() {
+        return mContext.getPackageName();
+    }
 }

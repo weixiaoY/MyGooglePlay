@@ -164,12 +164,12 @@ public abstract class SuperBaseAdapter<T>
             UiUtil.post(new Runnable() {
                 @Override
                 public void run() {
+                    loadMoreHolder.setData(finalState);
                     if (finalState != LoadMoreHolder.STATE_RETEY){
                         //刷新ui
                         notifyDataSetChanged();
                     }
                     isLoadingMore = false;
-                    loadMoreHolder.setData(finalState);
                 }
             });
         }

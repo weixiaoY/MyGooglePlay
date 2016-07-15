@@ -9,6 +9,7 @@ import com.itheima.googleplay25.base.LoadDataFragment;
 import com.itheima.googleplay25.base.SuperBaseAdapter;
 import com.itheima.googleplay25.beans.HomeBean;
 import com.itheima.googleplay25.holder.HomeHolder;
+import com.itheima.googleplay25.holder.TopPicHolder;
 import com.itheima.googleplay25.protocol.HomeProtocol;
 import com.itheima.googleplay25.util.UiUtil;
 import com.itheima.googleplay25.view.LoadDataView;
@@ -38,7 +39,12 @@ public class HomeFragment
         ListView lv = new ListView(UiUtil.getContext());
         lv.setBackgroundColor(Color.parseColor("#cccccc"));
         //lv.setDividerHeight(0);   4.0以上需要加上
+        //使用通过holder来生成view
+        TopPicHolder topPicHolder = new TopPicHolder();
+        View         picview         = topPicHolder.inflateAndFindView();
+        topPicHolder.setData(mPicture);
 
+        lv.addHeaderView(picview);
         lv.setAdapter(new HomeAdaper(mData));
 
        /* TextView tv = new TextView(UiUtil.getContext());
